@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج محضر استلام سيارة</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        h2 {
+            color: #2980b9;
+            border-right: 4px solid #3498db;
+            padding-right: 10px;
+            margin-top: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+            margin-left: 15px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #generateBtn {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        #generateBtn:hover {
+            background-color: #27ae60;
+        }
+
+        #resetBtn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        #resetBtn:hover {
+            background-color: #c0392b;
+        }
+
+        #printBtn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        #printBtn:hover {
+            background-color: #2980b9;
+        }
+
+        .receipt {
+            border: 2px solid #2c3e50;
+            padding: 25px;
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            line-height: 1.8;
+            display: none;
+        }
+
+        .receipt-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+
+        .receipt-section {
+            margin-bottom: 20px;
+        }
+
+        .receipt-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .signature-area {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #333;
+        }
+
+        .english-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #3498db;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .english-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .receipt, .receipt * {
+                visibility: visible;
+            }
+
+            .receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>برنامج إدخال بيانات محضر استلام سيارة</h1>
+
+        <div class="form-section">
+            <h2>معلومات المستلم</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="receiverName">اسم المستلم:</label>
+                    <input type="text" id="receiverName" placeholder="أدخل اسم المستلم">
+                </div>
+                <div class="form-group">
+                    <label for="receiptDate">تاريخ المحضر:</label>
+                    <input type="date" id="receiptDate">
+                </div>
+            </div>
+
+            <h2>معلومات المركبة</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="vehicleClass">صنف المركبة:</label>
+                    <input type="text" id="vehicleClass" value="فان ركاب">
+                </div>
+                <div class="form-group">
+                    <label for="vehicleType">نوع المركبة:</label>
+                    <input type="text" id="vehicleType" value="YYUNDAI STAREX">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="manufactureYear">سنة الصنع:</label>
+                    <input type="number" id="manufactureYear" value="2012" min="1990" max="2025">
+                </div>
+                <div class="form-group">
+                    <label for="vehicleColor">لون المركبة:</label>
+                    <input type="text" id="vehicleColor" value="رمادي">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="chassisNumber">رقم القاعدة (الشاسيه):</label>
+                    <input type="text" id="chassisNumber" value="KMJWA37KBCU482534">
+                </div>
+                <div class="form-group">
+                    <label for="plateNumber">رقم اللوحات:</label>
+                    <input type="text" id="plateNumber" value="FF-35715">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="receiveDate">تاريخ الاستلام:</label>
+                    <input type="date" id="receiveDate">
+                </div>
+                <div class="form-group">
+                    <label for="companyName">اسم الشركة:</label>
+                    <input type="text" id="companyName" value="فالنسيا لتجارة الرخام والحجر الطبيعي">
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons no-print">
+            <button id="generateBtn">إنشاء المحضر</button>
+            <button id="resetBtn">تفريغ الحقول</button>
+            <button id="printBtn">طباعة المحضر</button>
+        </div>
+
+        <div id="receipt" class="receipt">
+            <div class="receipt-header">محضر استلام سيارة</div>
+
+            <div class="receipt-section">
+                <div class="receipt-label">التاريخ:</div>
+                <div id="receiptDateDisplay"></div>
+            </div>
+
+            <div class="receipt-section">
+                <p>
+                    اقر انا <span id="displayReceiverName" class="receipt-label"></span> باستلام باص مشروعات خاص بشركة
+                    <span id="displayCompanyName" class="receipt-label"></span> بالمواصفات الاتية :
+                </p>
+            </div>
+
+            <div class="receipt-section">
+                <p>_صنف المركبة : <span id="displayVehicleClass" class="receipt-label"></span></p>
+                <p>_نوع المركبة : <span id="displayVehicleType" class="receipt-label"></span></p>
+                <p>_سنة الصنع : <span id="displayManufactureYear" class="receipt-label"></span></p>
+                <p>_لون المركبة : <span id="displayVehicleColor" class="receipt-label"></span></p>
+                <p>_رقم القاعدة: <span id="displayChassisNumber" class="receipt-label"></span></p>
+                <p>_رقم اللوحات : <span id="displayPlateNumber" class="receipt-label"></span></p>
+            </div>
+
+            <div class="receipt-section">
+                <p>
+                    وتم استلام السيارة ابتداءا من تاريخ <span id="displayReceiveDate" class="receipt-label"></span> وبذلك أصبحت مسئولا عنها مسئولية تامة عن أي
+                    مخالفات او حوادث او تلف السيارة نتيجة لاهمال شخصي اثناء فترة حيازتي للسيارة وتصبح الشركة غير مسئولة عنها .
+                </p>
+            </div>
+
+            <div class="signature-area">
+                <p>توقيع المستلم: ...............................</p>
+                <p>الاسم: <span id="displaySignatureName" class="receipt-label"></span></p>
+                <p>التاريخ: <span id="displaySignatureDate" class="receipt-label"></span></p>
+            </div>
+
+            <div class="english-section">
+                <div class="english-header">Vehicle Receipt Form</div>
+
+                <div class="receipt-section">
+                    <p>Date: <span id="displayEnglishDate" class="receipt-label"></span></p>
+                </div>
+
+                <div class="receipt-section">
+                    <p>
+                        I hereby <span id="displayEnglishReceiverName" class="receipt-label"></span> that I received a bus from
+                        <span id="displayEnglishCompanyName" class="receipt-label"></span> a bus for projects.
+                    </p>
+                </div>
+
+                <div class="receipt-section">
+                    <p>Year model: <span id="displayEnglishYear" class="receipt-label"></span></p>
+                    <p>Vehicle class: <span id="displayEnglishClass" class="receipt-label"></span></p>
+                    <p>Vehicle type: <span id="displayEnglishType" class="receipt-label"></span></p>
+                    <p>Vehicle color: <span id="displayEnglishColor" class="receipt-label"></span></p>
+                    <p>Chassis No.: <span id="displayEnglishChassis" class="receipt-label"></span></p>
+                    <p>Traffic plate No.: <span id="displayEnglishPlate" class="receipt-label"></span></p>
+                </div>
+
+                <div class="receipt-section">
+                    <p>
+                        The vehicle was received starting on <span id="displayEnglishReceiveDate" class="receipt-label"></span>.
+                        I am fully responsible for any violations, accidents, or damage to the vehicle resulting from personal negligence during my ownership of the vehicle.
+                        The company is not responsible for these violations.
+                    </p>
+                </div>
+
+                <div class="signature-area">
+                    <p>My signature: ...............................</p>
+                    <p>Name: <span id="displayEnglishSignatureName" class="receipt-label"></span></p>
+                    <p>Date: <span id="displayEnglishSignatureDate" class="receipt-label"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer no-print">
+            <p>برنامج محضر استلام سيارة - تم التطوير خصيصاً لشركة فالنسيا لتجارة الرخام والحجر الطبيعي</p>
+            <p>يمكن حفظ هذه الصفحة على جهازك واستخدامها دون اتصال بالإنترنت</p>
+        </div>
+    </div>
+
+    <script>
+        // تعيين التواريخ الحالية افتراضياً
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('receiptDate').value = today;
+            document.getElementById('receiveDate').value = '2025-06-14';
+
+            // تعيين الحد الأدنى والأقصى لتاريخ الاستلام
+            const receiveDateInput = document.getElementById('receiveDate');
+            receiveDateInput.min = '2025-01-01';
+            receiveDateInput.max = '2026-12-31';
+        });
+
+        // زر إنشاء المحضر
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            // التحقق من الحقول المطلوبة
+            const receiverName = document.getElementById('receiverName').value;
+            if (!receiverName) {
+                alert('الرجاء إدخال اسم المستلم');
+                return;
+            }
+
+            // جمع البيانات
+            const receiptDate = document.getElementById('receiptDate').value;
+            const companyName = document.getElementById('companyName').value;
+            const vehicleClass = document.getElementById('vehicleClass').value;
+            const vehicleType = document.getElementById('vehicleType').value;
+            const manufactureYear = document.getElementById('manufactureYear').value;
+            const vehicleColor = document.getElementById('vehicleColor').value;
+            const chassisNumber = document.getElementById('chassisNumber').value;
+            const plateNumber = document.getElementById('plateNumber').value;
+            const receiveDate = document.getElementById('receiveDate').value;
+
+            // تنسيق التواريخ للعرض
+            const formattedReceiptDate = formatDate(receiptDate);
+            const formattedReceiveDate = formatDate(receiveDate);
+
+            // عرض البيانات في المحضر
+            document.getElementById('displayReceiverName').textContent = receiverName;
+            document.getElementById('receiptDateDisplay').textContent = formattedReceiptDate;
+            document.getElementById('displayCompanyName').textContent = companyName;
+            document.getElementById('displayVehicleClass').textContent = vehicleClass;
+            document.getElementById('displayVehicleType').textContent = vehicleType;
+            document.getElementById('displayManufactureYear').textContent = manufactureYear;
+            document.getElementById('displayVehicleColor').textContent = vehicleColor;
+            document.getElementById('displayChassisNumber').textContent = chassisNumber;
+            document.getElementById('displayPlateNumber').textContent = plateNumber;
+            document.getElementById('displayReceiveDate').textContent = formattedReceiveDate;
+            document.getElementById('displaySignatureName').textContent = receiverName;
+            document.getElementById('displaySignatureDate').textContent = formattedReceiptDate;
+
+            // النسخة الإنجليزية
+            document.getElementById('displayEnglishReceiverName').textContent = receiverName;
+            document.getElementById('displayEnglishDate').textContent = formatDateEnglish(receiptDate);
+            document.getElementById('displayEnglishCompanyName').textContent = "Valencia marble & natural stone";
+            document.getElementById('displayEnglishYear').textContent = manufactureYear;
+            document.getElementById('displayEnglishClass').textContent = "PASSENGER VAN";
+            document.getElementById('displayEnglishType').textContent = vehicleType;
+            document.getElementById('displayEnglishColor').textContent = vehicleColor === "رمادي" ? "Gray" : vehicleColor;
+            document.getElementById('displayEnglishChassis').textContent = chassisNumber;
+            document.getElementById('displayEnglishPlate').textContent = plateNumber;
+            document.getElementById('displayEnglishReceiveDate').textContent = formatDateEnglish(receiveDate);
+            document.getElementById('displayEnglishSignatureName').textContent = receiverName;
+            document.getElementById('displayEnglishSignatureDate').textContent = formatDateEnglish(receiptDate);
+
+            // إظهار المحضر
+            document.getElementById('receipt').style.display = 'block';
+
+            // التمرير إلى المحضر
+            document.getElementById('receipt').scrollIntoView({behavior: 'smooth'});
+        });
+
+        // زر تفريغ الحقول
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('هل أنت متأكد من تفريغ جميع الحقول؟')) {
+                document.getElementById('receiverName').value = '';
+                document.getElementById('receiptDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('vehicleClass').value = 'فان ركاب';
+                document.getElementById('vehicleType').value = 'YYUNDAI STAREX';
+                document.getElementById('manufactureYear').value = '2012';
+                document.getElementById('vehicleColor').value = 'رمادي';
+                document.getElementById('chassisNumber').value = 'KMJWA37KBCU482534';
+                document.getElementById('plateNumber').value = 'FF-35715';
+                document.getElementById('receiveDate').value = '2025-06-14';
+                document.getElementById('companyName').value = 'فالنسيا لتجارة الرخام والحجر الطبيعي';
+
+                // إخفاء المحضر
+                document.getElementById('receipt').style.display = 'none';
+            }
+        });
+
+        // زر طباعة المحضر
+        document.getElementById('printBtn').addEventListener('click', function() {
+            if (document.getElementById('receipt').style.display === 'block') {
+                window.print();
+            } else {
+                alert('الرجاء إنشاء المحضر أولاً قبل الطباعة');
+            }
+        });
+
+        // دالة لتنسيق التاريخ بالعربية
+        function formatDate(dateString) {
+            if (!dateString) return '';
+
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
+        // دالة لتنسيق التاريخ بالإنجليزية
+        function formatDateEnglish(dateString) {
+            if (!dateString) return '';
+
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>
