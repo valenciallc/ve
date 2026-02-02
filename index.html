@@ -1,385 +1,1325 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>برنامج محضر استلام سيارة</title>
+    <title>نظام محضر استلام السيارة - فالنسيا للرخام</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        /* أنماط كلاسيكية احترافية مشابهة لنظام الأوامر الإدارية */
+        @page {
+            size: A4;
+            margin: 0.3cm !important;
+        }
+
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #c19a53;
+            --accent-color: #2c5282;
+            --light-color: #f8f9fa;
+            --dark-color: #2d3748;
         }
 
         body {
-            background-color: #f5f5f5;
+            font-family: 'Arial', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
-            color: #333;
-            direction: rtl;
+            padding: 0;
+            background: #f5f7fa;
+            color: #2d3748;
+            font-size: 10pt;
+            line-height: 1.5;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
+        .header {
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #3498db;
+            margin-bottom: 8px;
+            padding: 5px 0 3px 0;
+            border-bottom: 2px solid #c19a53;
+            position: relative;
         }
 
-        h2 {
-            color: #2980b9;
-            border-right: 4px solid #3498db;
-            padding-right: 10px;
-            margin-top: 30px;
+        .company-name {
+            font-size: 20pt;
+            font-weight: bold;
+            color: #1a365d;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 1px;
         }
 
-        .form-section {
-            margin-bottom: 25px;
+        .company-subtitle {
+            font-size: 14pt;
+            color: #2c5282;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 3px;
+            padding-top: 1px;
+            border-top: 1px solid #c19a53;
         }
 
-        .form-row {
+        .department {
+            font-size: 12pt;
+            color: #c19a53;
+            font-weight: bold;
+            margin: 3px 0 2px 0;
+            font-family: 'Times New Roman', serif;
+            padding: 2px;
+        }
+
+        .document-info {
             display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
+            justify-content: space-between;
+            align-items: center;
+            margin: 6px 0;
+            padding: 5px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
         }
 
-        .form-group {
+        .document-date {
+            font-size: 9pt;
+            color: #2d3748;
+            font-weight: bold;
             flex: 1;
-            min-width: 250px;
-            margin-left: 15px;
-            margin-bottom: 10px;
+            text-align: right;
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-
-        button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        #generateBtn {
-            background-color: #2ecc71;
-            color: white;
-        }
-
-        #generateBtn:hover {
-            background-color: #27ae60;
-        }
-
-        #resetBtn {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        #resetBtn:hover {
-            background-color: #c0392b;
-        }
-
-        #printBtn {
-            background-color: #3498db;
-            color: white;
-        }
-
-        #printBtn:hover {
-            background-color: #2980b9;
-        }
-
-        .receipt {
-            border: 2px solid #2c3e50;
-            padding: 25px;
-            margin-top: 30px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            line-height: 1.8;
-            display: none;
-        }
-
-        .receipt-header {
+        .document-title {
             text-align: center;
-            font-size: 24px;
+            font-size: 18pt;
+            color: #1a365d;
             font-weight: bold;
-            margin-bottom: 25px;
-            color: #2c3e50;
-            text-decoration: underline;
+            margin: 6px 0;
+            font-family: 'Times New Roman', serif;
+            padding: 4px;
+            flex: 2;
         }
 
-        .receipt-section {
-            margin-bottom: 20px;
-        }
-
-        .receipt-label {
+        .document-number {
+            font-size: 11pt;
+            color: #c19a53;
             font-weight: bold;
-            color: #2c3e50;
+            text-align: center;
+            padding: 3px 6px;
+            border: 2px solid #c19a53;
+            border-radius: 3px;
+            background: white;
+            display: inline-block;
+            flex: 1;
+            margin-left: 6px;
         }
 
-        .signature-area {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px dashed #333;
+        .control-panel {
+            background: linear-gradient(135deg, #1a365d, #2c5282);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn {
+            padding: 6px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.3s;
+            font-size: 10pt;
+            min-width: 130px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: 1px solid #27ae60;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            color: white;
+            border: 1px solid #2d3748;
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            color: white;
+            border: 1px solid #c53030;
+        }
+
+        .btn-manage {
+            background: linear-gradient(135deg, #2c5282, #1a365d);
+            color: white;
+            border: 1px solid #2c5282;
+        }
+
+        textarea, input, select {
+            border: 1px solid #cbd5e0;
+            border-radius: 2px;
+            padding: 4px 6px;
+            font-size: 9.5pt;
+            transition: all 0.3s;
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+            box-sizing: border-box;
+            height: 28px;
+        }
+
+        textarea:focus, input:focus, select:focus {
+            border-color: #2c5282;
+            box-shadow: 0 0 0 1px rgba(44, 82, 130, 0.2);
+            outline: none;
+        }
+
+        .receipt-text {
+            min-height: 120px;
+            height: 120px;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            padding: 6px;
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+            resize: vertical;
+        }
+
+        .signature-section {
+            margin-top: 25px;
+            padding-top: 8px;
+            border-top: 2px solid #c19a53;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .signature-box {
+            border: 1px solid #cbd5e0;
+            padding: 6px;
+            height: 85px;
+            border-radius: 3px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #2d3748;
+            margin-top: 8px;
+            padding-bottom: 2px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signature-box strong {
+            font-size: 9.5pt;
+            color: #1a365d;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .signature-box div {
+            font-size: 7.5pt;
+            margin-top: 1px;
+            color: #4a5568;
+        }
+
+        .signature-box i.fa-stamp {
+            font-size: 16pt;
+            color: #c19a53;
+            margin-top: 2px;
+            opacity: 0.9;
+        }
+
+        .document-content {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+        }
+
+        .receipt-intro {
+            font-size: 10.5pt;
+            text-align: justify;
+            line-height: 1.6;
+            margin: 6px 0;
+            padding: 5px;
+            background: #f8f9fa;
+            border-radius: 3px;
+            border-right: 2px solid #c19a53;
         }
 
         .english-section {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #3498db;
-            direction: ltr;
-            text-align: left;
+            margin-top: 30px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 4px;
+            border-right: 3px solid #2c5282;
+            font-family: 'Arial', sans-serif;
         }
 
         .english-header {
-            font-size: 20px;
+            font-size: 12pt;
             font-weight: bold;
-            margin-bottom: 20px;
+            color: #1a365d;
             text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #2c5282;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
+        /* الطباعة - كل المحتوى في صفحة واحدة */
         @media print {
-            body * {
-                visibility: hidden;
+            @page {
+                size: A4 portrait;
+                margin: 0.5cm !important;
             }
 
-            .receipt, .receipt * {
-                visibility: visible;
-            }
-
-            .receipt {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                border: none;
-                box-shadow: none;
+            body {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+                background: white !important;
+                color: black !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-height: 100vh !important;
+                overflow: hidden !important;
+                position: relative;
             }
 
             .no-print {
                 display: none !important;
             }
+
+            .content-container {
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+                height: auto;
+                display: flex !important;
+                flex-direction: column !important;
+                margin-top: 125px !important;
+                margin-bottom: 120px !important;
+            }
+
+            /* الرأس الثابت للطباعة */
+            .print-header {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 9999 !important;
+                display: block !important;
+                height: 110px !important;
+                text-align: center !important;
+                background: white !important;
+                padding: 5px 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                page-break-inside: avoid !important;
+            }
+
+            .company-name {
+                font-size: 18pt !important;
+                color: black !important;
+                margin-bottom: 2px !important;
+            }
+
+            .company-subtitle {
+                font-size: 12pt !important;
+                color: black !important;
+                margin-bottom: 3px !important;
+                border-top: 1px solid black !important;
+                padding-top: 0 !important;
+            }
+
+            .department {
+                font-size: 11pt !important;
+                color: black !important;
+                background: none !important;
+                padding: 1px !important;
+                margin: 3px 0 !important;
+            }
+
+            .document-info {
+                background: none !important;
+                border: 1px solid black !important;
+                padding: 3px !important;
+                margin: 3px 0 !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+            }
+
+            .document-title {
+                font-size: 14pt !important;
+                color: black !important;
+                background: none !important;
+                border-bottom: 1px solid black !important;
+                border-radius: 0 !important;
+                margin: 6px 0 !important;
+                padding: 2px !important;
+                flex: 2;
+            }
+
+            .document-number {
+                border: 1px solid black !important;
+                color: black !important;
+                background: none !important;
+                font-size: 10pt !important;
+                padding: 3px 8px !important;
+                flex: 1;
+                margin-left: 4px !important;
+            }
+
+            .document-date {
+                font-size: 9pt !important;
+                flex: 1;
+                text-align: right !important;
+            }
+
+            .document-content {
+                box-shadow: none !important;
+                padding: 0 !important;
+                background: none !important;
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: 0 !important;
+                page-break-inside: avoid !important;
+            }
+
+            .receipt-intro {
+                background: none !important;
+                border: 1px solid #ccc !important;
+                padding: 6px !important;
+                margin: 8px 0 !important;
+                font-size: 10pt !important;
+                line-height: 1.5 !important;
+                page-break-inside: avoid !important;
+            }
+
+            .receipt-text {
+                border: 1px solid #ccc !important;
+                background: none !important;
+                min-height: 140px !important;
+                height: auto !important;
+                max-height: 180px !important;
+                font-size: 10pt !important;
+                line-height: 1.5 !important;
+                padding: 4px !important;
+                margin: 4px 0 8px 0 !important;
+                flex: 1;
+                page-break-inside: avoid !important;
+            }
+
+            .info-row {
+                margin-bottom: 6px !important;
+                page-break-inside: avoid !important;
+            }
+
+            .info-item {
+                min-width: 160px !important;
+                margin-bottom: 4px !important;
+            }
+
+            .info-item label {
+                font-size: 9pt !important;
+                margin-bottom: 2px !important;
+            }
+
+            .signature-section {
+                border-top: 2px solid black !important;
+                background: none !important;
+                padding: 6px 0 0 0 !important;
+                margin-top: 10px !important;
+                flex-shrink: 0;
+                page-break-inside: avoid !important;
+            }
+
+            .signature-box {
+                border: 1px solid black !important;
+                background: none !important;
+                height: 75px !important;
+                padding: 4px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+            }
+
+            .signature-line {
+                margin-top: 4px !important;
+                margin-bottom: 2px !important;
+            }
+
+            .signature-box strong {
+                font-size: 9pt !important;
+            }
+
+            .signature-box div {
+                font-size: 7pt !important;
+            }
+
+            .signature-box i.fa-stamp {
+                font-size: 12pt !important;
+            }
+
+            textarea, input, select {
+                border: none !important;
+                background: none !important;
+                padding: 0 !important;
+                pointer-events: none;
+                font-size: 9.5pt !important;
+                height: auto !important;
+                min-height: auto !important;
+            }
+
+            select {
+                appearance: none !important;
+            }
+
+            /* القدم الثابت للطباعة */
+            .print-footer {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 9999 !important;
+                display: block !important;
+                height: 110px !important;
+                text-align: center !important;
+                background: white !important;
+                padding: 5px 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                page-break-inside: avoid !important;
+                font-size: 8pt !important;
+            }
+
+            .control-panel, #auto-send-notification, .confirmation-modal {
+                display: none !important;
+            }
+
+            /* تحسين توزيع العناصر */
+            .document-content > * {
+                margin-bottom: 6px !important;
+            }
+
+            .document-content > *:last-child {
+                margin-bottom: 0 !important;
+            }
+
+            /* توزيع التواقيع بشكل متساو */
+            .signature-section > div:first-child {
+                display: flex !important;
+                gap: 8px !important;
+                justify-content: space-between !important;
+            }
+
+            /* معلومات التنفيذ والمصدّر */
+            .no-break[style*="margin-top: 10px"] {
+                margin-top: 8px !important;
+                margin-bottom: 8px !important;
+                display: flex !important;
+                gap: 10px !important;
+                justify-content: space-between !important;
+                flex-shrink: 0;
+            }
+
+            /* منع انقسام المحتوى بين الصفحات */
+            .avoid-break, .no-break {
+                page-break-inside: avoid !important;
+                page-break-before: avoid !important;
+                page-break-after: avoid !important;
+                break-inside: avoid !important;
+            }
+
+            /* ضمان أن المحتوى لا يتجاوز صفحة واحدة */
+            .document-content > *:last-child {
+                page-break-after: avoid !important;
+            }
+
+            /* توحيد الألوان للطباعة */
+            * {
+                color: black !important;
+            }
+
+            /* قسم اللغة الإنجليزية */
+            .english-section {
+                background: none !important;
+                border: 1px solid #ccc !important;
+                margin-top: 20px !important;
+                padding: 10px !important;
+                page-break-inside: avoid !important;
+            }
+
+            .english-header {
+                color: black !important;
+                border-bottom: 1px solid black !important;
+                font-size: 11pt !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .btn { min-width: 110px; padding: 4px 6px; font-size: 9pt; }
+            .control-panel { padding: 8px; }
+
+            .company-name {
+                font-size: 16pt;
+            }
+
+            .company-subtitle {
+                font-size: 10pt;
+            }
+
+            .department {
+                font-size: 9pt;
+            }
+
+            .document-title {
+                font-size: 14pt;
+            }
+
+            .document-info {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .signature-box {
+                height: 75px;
+                padding: 5px;
+            }
+        }
+
+        /* تنسيقات إضافية */
+        .info-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .info-item label {
+            display: block;
+            margin-bottom: 2px;
+            font-weight: bold;
+            color: #2c5282;
+            font-size: 9pt;
+        }
+
+        .serial-display {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 2px;
+            margin-top: 6px;
+            font-size: 9pt;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .serial-display span {
+            font-weight: bold;
+            color: #c19a53;
+            font-size: 9.5pt;
+        }
+
+        .auto-calculation-note {
+            font-size: 7.5pt;
+            color: #718096;
+            text-align: center;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        /* تصميم مضغوط */
+        .compact-field {
+            margin: 0 !important;
+            padding: 2px 4px !important;
+        }
+
+        .no-break {
+            page-break-inside: avoid;
+        }
+
+        /* نافذة الإشعار التلقائي */
+        #auto-send-notification {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            z-index: 10000;
+            font-size: 9.5pt;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            max-width: 300px;
+            animation: slideIn 0.5s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid;
+        }
+
+        #auto-send-notification.success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        #auto-send-notification.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        #auto-send-notification.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-color: #bee5eb;
+        }
+
+        #auto-send-notification.sending {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* نافذة التأكيد */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmation-content {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .confirmation-content h3 {
+            color: #1a365d;
+            margin-bottom: 8px;
+            font-family: 'Times New Roman', serif;
+            font-size: 11pt;
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #38a169, #2f855a);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 2px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 9pt;
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #a0aec0, #718096);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 2px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 9pt;
+        }
+
+        /* تصميم حقل الإدخال مع قائمة الإكمال التلقائي */
+        .employee-input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .employee-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #cbd5e0;
+            border-top: none;
+            border-radius: 0 0 3px 3px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .employee-suggestion-item {
+            padding: 6px 8px;
+            cursor: pointer;
+            font-size: 9.5pt;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .employee-suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .employee-suggestion-item:hover,
+        .employee-suggestion-item.active {
+            background-color: #f7fafc;
+            color: #2c5282;
+        }
+
+        .employee-suggestion-item.new-employee {
+            color: #c53030;
+            font-weight: bold;
+            background-color: #fff5f5;
+        }
+
+        .employee-suggestion-item.new-employee:before {
+            content: "+ ";
+            color: #38a169;
+        }
+
+        .employee-input-container input {
+            width: 100%;
+        }
+
+        .employee-add-notice {
+            font-size: 7.5pt;
+            color: #718096;
+            margin-top: 2px;
+            display: block;
+            text-align: right;
+            font-style: italic;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>برنامج إدخال بيانات محضر استلام سيارة</h1>
-
-        <div class="form-section">
-            <h2>معلومات المستلم</h2>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="receiverName">اسم المستلم:</label>
-                    <input type="text" id="receiverName" placeholder="أدخل اسم المستلم">
-                </div>
-                <div class="form-group">
-                    <label for="receiptDate">تاريخ المحضر:</label>
-                    <input type="date" id="receiptDate">
-                </div>
-            </div>
-
-            <h2>معلومات المركبة</h2>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="vehicleClass">صنف المركبة:</label>
-                    <input type="text" id="vehicleClass" value="فان ركاب">
-                </div>
-                <div class="form-group">
-                    <label for="vehicleType">نوع المركبة:</label>
-                    <input type="text" id="vehicleType" value="YYUNDAI STAREX">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="manufactureYear">سنة الصنع:</label>
-                    <input type="number" id="manufactureYear" value="2012" min="1990" max="2025">
-                </div>
-                <div class="form-group">
-                    <label for="vehicleColor">لون المركبة:</label>
-                    <input type="text" id="vehicleColor" value="رمادي">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="chassisNumber">رقم القاعدة (الشاسيه):</label>
-                    <input type="text" id="chassisNumber" value="KMJWA37KBCU482534">
-                </div>
-                <div class="form-group">
-                    <label for="plateNumber">رقم اللوحات:</label>
-                    <input type="text" id="plateNumber" value="FF-35715">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="receiveDate">تاريخ الاستلام:</label>
-                    <input type="date" id="receiveDate">
-                </div>
-                <div class="form-group">
-                    <label for="companyName">اسم الشركة:</label>
-                    <input type="text" id="companyName" value="فالنسيا لتجارة الرخام والحجر الطبيعي">
-                </div>
-            </div>
+    <!-- لوحة التحكم -->
+    <div class="control-panel no-print">
+        <div style="text-align: center; margin-bottom: 6px;">
+            <h2 style="margin: 0 0 3px 0; font-family: 'Times New Roman', serif; font-size: 11pt;">
+                <i class="fas fa-car"></i> نظام محاضر استلام السيارات
+            </h2>
+            <h4 style="margin: 0; font-weight: normal; opacity: 0.9; font-family: 'Times New Roman', serif; font-size: 9.5pt;">
+                شركة فالنسيا لتجارة الرخام والحجر الطبيعي
+            </h4>
         </div>
 
-        <div class="buttons no-print">
-            <button id="generateBtn">إنشاء المحضر</button>
-            <button id="resetBtn">تفريغ الحقول</button>
-            <button id="printBtn">طباعة المحضر</button>
+        <div style="text-align: center;">
+            <button class="btn btn-generate" onclick="generateReceipt()">
+                <i class="fas fa-file-alt"></i> إنشاء المحضر
+            </button>
+            <button class="btn btn-print" onclick="printReceipt()">
+                <i class="fas fa-print"></i> طباعة المحضر
+            </button>
+            <button class="btn btn-reset" onclick="resetForm()">
+                <i class="fas fa-redo"></i> تفريغ الحقول
+            </button>
         </div>
 
-        <div id="receipt" class="receipt">
-            <div class="receipt-header">محضر استلام سيارة</div>
-
-            <div class="receipt-section">
-                <div class="receipt-label">التاريخ:</div>
-                <div id="receiptDateDisplay"></div>
-            </div>
-
-            <div class="receipt-section">
-                <p>
-                    اقر انا <span id="displayReceiverName" class="receipt-label"></span> باستلام باص مشروعات خاص بشركة
-                    <span id="displayCompanyName" class="receipt-label"></span> بالمواصفات الاتية :
-                </p>
-            </div>
-
-            <div class="receipt-section">
-                <p>_صنف المركبة : <span id="displayVehicleClass" class="receipt-label"></span></p>
-                <p>_نوع المركبة : <span id="displayVehicleType" class="receipt-label"></span></p>
-                <p>_سنة الصنع : <span id="displayManufactureYear" class="receipt-label"></span></p>
-                <p>_لون المركبة : <span id="displayVehicleColor" class="receipt-label"></span></p>
-                <p>_رقم القاعدة: <span id="displayChassisNumber" class="receipt-label"></span></p>
-                <p>_رقم اللوحات : <span id="displayPlateNumber" class="receipt-label"></span></p>
-            </div>
-
-            <div class="receipt-section">
-                <p>
-                    وتم استلام السيارة ابتداءا من تاريخ <span id="displayReceiveDate" class="receipt-label"></span> وبذلك أصبحت مسئولا عنها مسئولية تامة عن أي
-                    مخالفات او حوادث او تلف السيارة نتيجة لاهمال شخصي اثناء فترة حيازتي للسيارة وتصبح الشركة غير مسئولة عنها .
-                </p>
-            </div>
-
-            <div class="signature-area">
-                <p>توقيع المستلم: ...............................</p>
-                <p>الاسم: <span id="displaySignatureName" class="receipt-label"></span></p>
-                <p>التاريخ: <span id="displaySignatureDate" class="receipt-label"></span></p>
-            </div>
-
-            <div class="english-section">
-                <div class="english-header">Vehicle Receipt Form</div>
-
-                <div class="receipt-section">
-                    <p>Date: <span id="displayEnglishDate" class="receipt-label"></span></p>
-                </div>
-
-                <div class="receipt-section">
-                    <p>
-                        I hereby <span id="displayEnglishReceiverName" class="receipt-label"></span> that I received a bus from
-                        <span id="displayEnglishCompanyName" class="receipt-label"></span> a bus for projects.
-                    </p>
-                </div>
-
-                <div class="receipt-section">
-                    <p>Year model: <span id="displayEnglishYear" class="receipt-label"></span></p>
-                    <p>Vehicle class: <span id="displayEnglishClass" class="receipt-label"></span></p>
-                    <p>Vehicle type: <span id="displayEnglishType" class="receipt-label"></span></p>
-                    <p>Vehicle color: <span id="displayEnglishColor" class="receipt-label"></span></p>
-                    <p>Chassis No.: <span id="displayEnglishChassis" class="receipt-label"></span></p>
-                    <p>Traffic plate No.: <span id="displayEnglishPlate" class="receipt-label"></span></p>
-                </div>
-
-                <div class="receipt-section">
-                    <p>
-                        The vehicle was received starting on <span id="displayEnglishReceiveDate" class="receipt-label"></span>.
-                        I am fully responsible for any violations, accidents, or damage to the vehicle resulting from personal negligence during my ownership of the vehicle.
-                        The company is not responsible for these violations.
-                    </p>
-                </div>
-
-                <div class="signature-area">
-                    <p>My signature: ...............................</p>
-                    <p>Name: <span id="displayEnglishSignatureName" class="receipt-label"></span></p>
-                    <p>Date: <span id="displayEnglishSignatureDate" class="receipt-label"></span></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer no-print">
-            <p>برنامج محضر استلام سيارة - تم التطوير خصيصاً لشركة فالنسيا لتجارة الرخام والحجر الطبيعي</p>
-            <p>يمكن حفظ هذه الصفحة على جهازك واستخدامها دون اتصال بالإنترنت</p>
+        <div class="auto-calculation-note">
+            <i class="fas fa-info-circle"></i> يتم حفظ البيانات تلقائياً في المتصفح
         </div>
     </div>
 
-    <script>
-        // تعيين التواريخ الحالية افتراضياً
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('receiptDate').value = today;
-            document.getElementById('receiveDate').value = '2025-06-14';
+    <!-- نموذج محضر استلام السيارة -->
+    <div class="content-container no-break">
+        <div class="document-info">
+            <div class="document-date" id="current-date">--/--/----</div>
+            <div class="document-title">محضر استلام سيارة</div>
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 8pt; color: #4a5568; margin-bottom: 1px;">رقم</div>
+                <div class="document-number" id="serial-number">REC-000001</div>
+            </div>
+        </div>
 
-            // تعيين الحد الأدنى والأقصى لتاريخ الاستلام
-            const receiveDateInput = document.getElementById('receiveDate');
-            receiveDateInput.min = '2025-01-01';
-            receiveDateInput.max = '2026-12-31';
+        <div class="document-content">
+            <!-- معلومات محضر الاستلام -->
+            <div class="info-row no-break">
+                <div class="info-item">
+                    <label for="receiverName">اسم المستلم:</label>
+                    <div class="employee-input-container">
+                        <input type="text" id="receiverName" placeholder="أدخل اسم المستلم" class="print-field compact-field">
+                    </div>
+                    <span class="employee-add-notice">يمكنك كتابة اسم جديد وسيتم حفظه</span>
+                </div>
+
+                <div class="info-item">
+                    <label for="receiptDate">تاريخ المحضر:</label>
+                    <input type="date" id="receiptDate" class="print-field compact-field">
+                </div>
+
+                <div class="info-item">
+                    <label for="receiveDate">تاريخ الاستلام:</label>
+                    <input type="date" id="receiveDate" class="print-field compact-field">
+                </div>
+            </div>
+
+            <div class="info-row no-break">
+                <div class="info-item">
+                    <label for="companyName">اسم الشركة:</label>
+                    <input type="text" id="companyName" value="فالنسيا لتجارة الرخام والحجر الطبيعي" class="print-field compact-field">
+                </div>
+
+                <div class="info-item">
+                    <label for="vehicleClass">صنف المركبة:</label>
+                    <select id="vehicleClass" class="print-field compact-field">
+                        <option value="فان ركاب">فان ركاب</option>
+                        <option value="باص مشاريع">باص مشاريع</option>
+                        <option value="سيارة نقل">سيارة نقل</option>
+                        <option value="سيارة خاصة">سيارة خاصة</option>
+                        <option value="شاحنة">شاحنة</option>
+                        <option value="معدات ثقيلة">معدات ثقيلة</option>
+                    </select>
+                </div>
+
+                <div class="info-item">
+                    <label for="vehicleType">نوع المركبة:</label>
+                    <input type="text" id="vehicleType" value="HYUNDAI STAREX" class="print-field compact-field">
+                </div>
+            </div>
+
+            <div class="info-row no-break">
+                <div class="info-item">
+                    <label for="manufactureYear">سنة الصنع:</label>
+                    <input type="number" id="manufactureYear" value="2012" min="1990" max="2025" class="print-field compact-field">
+                </div>
+
+                <div class="info-item">
+                    <label for="vehicleColor">لون المركبة:</label>
+                    <select id="vehicleColor" class="print-field compact-field">
+                        <option value="رمادي">رمادي</option>
+                        <option value="أسود">أسود</option>
+                        <option value="أبيض">أبيض</option>
+                        <option value="فضي">فضي</option>
+                        <option value="أزرق">أزرق</option>
+                        <option value="أحمر">أحمر</option>
+                        <option value="أخضر">أخضر</option>
+                        <option value="بني">بني</option>
+                        <option value="ذهبي">ذهبي</option>
+                        <option value="أصفر">أصفر</option>
+                    </select>
+                </div>
+
+                <div class="info-item">
+                    <label for="chassisNumber">رقم القاعدة (الشاسيه):</label>
+                    <input type="text" id="chassisNumber" value="KMJWA37KBCU482534" class="print-field compact-field">
+                </div>
+            </div>
+
+            <div class="info-row no-break">
+                <div class="info-item">
+                    <label for="plateNumber">رقم اللوحات:</label>
+                    <input type="text" id="plateNumber" value="FF-35715" class="print-field compact-field">
+                </div>
+
+                <div class="info-item">
+                    <label for="plateEmirate">إمارة اللوحات:</label>
+                    <select id="plateEmirate" class="print-field compact-field">
+                        <option value="">اختر الإمارة</option>
+                        <option value="أبو ظبي">أبو ظبي</option>
+                        <option value="دبي">دبي</option>
+                        <option value="الشارقة">الشارقة</option>
+                        <option value="عجمان">عجمان</option>
+                        <option value="أم القيوين">أم القيوين</option>
+                        <option value="رأس الخيمة">رأس الخيمة</option>
+                        <option value="الفجيرة">الفجيرة</option>
+                        <option value="مشترك">مشترك</option>
+                    </select>
+                </div>
+
+                <div class="info-item">
+                    <label for="vehicleCondition">حالة المركبة:</label>
+                    <select id="vehicleCondition" class="print-field compact-field">
+                        <option value="جيدة">جيدة</option>
+                        <option value="جيدة جداً">جيدة جداً</option>
+                        <option value="ممتازة">ممتازة</option>
+                        <option value="تحتاج صيانة">تحتاج صيانة</option>
+                        <option value="صيانة بسيطة">صيانة بسيطة</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- نص المحضر -->
+            <div class="receipt-intro no-break">
+                اقر انا المستلم أدناه باستلام مركبة خاصة بشركة فالنسيا لتجارة الرخام والحجر الطبيعي بالمواصفات المذكورة أدناه:
+            </div>
+
+            <!-- منطقة العرض (تظهر بعد إنشاء المحضر) -->
+            <div id="receiptDisplay" style="display: none;">
+                <div class="no-break" style="margin-top: 15px;">
+                    <div class="receipt-text print-field no-break" id="receiptDetails">
+                        <!-- سيتم تعبئته ديناميكياً -->
+                    </div>
+                </div>
+
+                <!-- التواقيع -->
+                <div class="signature-section no-break">
+                    <div style="text-align: center; margin-bottom: 6px; font-weight: bold; font-size: 9.5pt; color: #1a365d;">
+                        تواقيع طرفي المحضر
+                    </div>
+
+                    <div style="display: flex; gap: 6px;">
+                        <div style="flex: 1;">
+                            <div class="signature-box">
+                                <strong>توقيع المستلم</strong>
+                                <div class="signature-line"></div>
+                                <div id="signatureReceiverName"></div>
+                                <div id="signatureDate"></div>
+                            </div>
+                        </div>
+
+                        <div style="flex: 1;">
+                            <div class="signature-box">
+                                <strong>توقيع ممثل الشركة</strong>
+                                <div style="margin-top: 1px; font-size: 1pt; color: #c19a53;">
+                                    <i class="fas fa-stamp"></i>
+                                </div>
+                                <div>شركة فالنسيا للرخام</div>
+                                <div id="companyRepresentative"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- النسخة الإنجليزية -->
+                <div class="english-section no-break">
+                    <div class="english-header">Vehicle Receipt Form</div>
+                    
+                    <div class="receipt-text" id="englishReceiptDetails">
+                        <!-- سيتم تعبئته ديناميكياً -->
+                    </div>
+
+                    <div class="signature-section no-break" style="margin-top: 15px; background: #e8f4fc;">
+                        <div style="display: flex; gap: 6px;">
+                            <div style="flex: 1;">
+                                <div class="signature-box" style="background: #f8fafc;">
+                                    <strong>Receiver's Signature</strong>
+                                    <div class="signature-line"></div>
+                                    <div id="englishSignatureReceiverName"></div>
+                                    <div id="englishSignatureDate"></div>
+                                </div>
+                            </div>
+
+                            <div style="flex: 1;">
+                                <div class="signature-box" style="background: #f8fafc;">
+                                    <strong>Company Representative Signature</strong>
+                                    <div style="margin-top: 1px; font-size: 1pt; color: #2c5282;">
+                                        <i class="fas fa-stamp"></i>
+                                    </div>
+                                    <div>Valencia Marble & Natural Stone Co.</div>
+                                    <div id="englishCompanyRepresentative"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة التأكيد -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="confirmation-content">
+            <!-- سيتم تعبئته ديناميكياً -->
+        </div>
+    </div>
+
+    <!-- نافذة الإشعار التلقائي -->
+    <div id="auto-send-notification" style="display: none;"></div>
+
+    <script>
+        // =============================================
+        // متغيرات النظام
+        // =============================================
+
+        let currentReceiptNumber = 1;
+        let savedReceivers = [];
+        let receiptGenerated = false;
+
+        // =============================================
+        // تهيئة الصفحة
+        // =============================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعيين التواريخ الحالية
+            setCurrentDate();
+            setDefaultDates();
+            
+            // تحميل البيانات المحفوظة
+            loadSavedData();
+            loadSavedReceivers();
+            
+            // تحديث رقم المحضر
+            updateReceiptNumber();
+            
+            // إضافة مستمعات الأحداث
+            document.querySelectorAll('.print-field').forEach(field => {
+                field.addEventListener('input', saveData);
+                field.addEventListener('change', saveData);
+            });
+            
+            // تفعيل الإدخال التلقائي لأسماء المستلمين
+            initReceiverAutocomplete();
         });
 
-        // زر إنشاء المحضر
-        document.getElementById('generateBtn').addEventListener('click', function() {
-            // التحقق من الحقول المطلوبة
-            const receiverName = document.getElementById('receiverName').value;
+        function setCurrentDate() {
+            const now = new Date();
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const year = now.getFullYear();
+            const dateStr = `${day}-${month}-${year}`;
+
+            document.getElementById('current-date').textContent = dateStr;
+        }
+
+        function setDefaultDates() {
+            const today = new Date().toISOString().split('T')[0];
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+            document.getElementById('receiptDate').value = today;
+            document.getElementById('receiveDate').value = tomorrowStr;
+        }
+
+        // تحديث رقم المحضر
+        function updateReceiptNumber() {
+            const savedNumber = localStorage.getItem('valenciaReceiptCounter');
+            if (savedNumber) {
+                currentReceiptNumber = parseInt(savedNumber);
+            }
+            document.getElementById('serial-number').textContent = `REC-${currentReceiptNumber.toString().padStart(6, '0')}`;
+        }
+
+        // زيادة رقم المحضر
+        function incrementReceiptNumber() {
+            currentReceiptNumber++;
+            localStorage.setItem('valenciaReceiptCounter', currentReceiptNumber);
+            updateReceiptNumber();
+            return currentReceiptNumber;
+        }
+
+        // =============================================
+        // حفظ واسترجاع البيانات
+        // =============================================
+
+        function saveData() {
+            const data = {
+                receiverName: document.getElementById('receiverName').value,
+                receiptDate: document.getElementById('receiptDate').value,
+                receiveDate: document.getElementById('receiveDate').value,
+                companyName: document.getElementById('companyName').value,
+                vehicleClass: document.getElementById('vehicleClass').value,
+                vehicleType: document.getElementById('vehicleType').value,
+                manufactureYear: document.getElementById('manufactureYear').value,
+                vehicleColor: document.getElementById('vehicleColor').value,
+                chassisNumber: document.getElementById('chassisNumber').value,
+                plateNumber: document.getElementById('plateNumber').value,
+                plateEmirate: document.getElementById('plateEmirate').value,
+                vehicleCondition: document.getElementById('vehicleCondition').value
+            };
+
+            localStorage.setItem('valenciaReceiptData', JSON.stringify(data));
+        }
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('valenciaReceiptData');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+
+                    document.getElementById('receiverName').value = data.receiverName || '';
+                    document.getElementById('receiptDate').value = data.receiptDate || '';
+                    document.getElementById('receiveDate').value = data.receiveDate || '';
+                    document.getElementById('companyName').value = data.companyName || 'فالنسيا لتجارة الرخام والحجر الطبيعي';
+                    document.getElementById('vehicleClass').value = data.vehicleClass || 'فان ركاب';
+                    document.getElementById('vehicleType').value = data.vehicleType || 'HYUNDAI STAREX';
+                    document.getElementById('manufactureYear').value = data.manufactureYear || '2012';
+                    document.getElementById('vehicleColor').value = data.vehicleColor || 'رمادي';
+                    document.getElementById('chassisNumber').value = data.chassisNumber || 'KMJWA37KBCU482534';
+                    document.getElementById('plateNumber').value = data.plateNumber || 'FF-35715';
+                    document.getElementById('plateEmirate').value = data.plateEmirate || '';
+                    document.getElementById('vehicleCondition').value = data.vehicleCondition || 'جيدة';
+                } catch (e) {
+                    console.error('خطأ في تحميل البيانات المحفوظة:', e);
+                }
+            }
+        }
+
+        // إدارة أسماء المستلمين
+        function loadSavedReceivers() {
+            const saved = localStorage.getItem('valenciaReceivers');
+            if (saved) {
+                try {
+                    savedReceivers = JSON.parse(saved);
+                } catch (e) {
+                    console.error('خطأ في تحميل قائمة المستلمين:', e);
+                    savedReceivers = [];
+                }
+            }
+        }
+
+        function saveReceivers() {
+            localStorage.setItem('valenciaReceivers', JSON.stringify(savedReceivers));
+        }
+
+        function addReceiver(name) {
+            if (name && name.trim() && !savedReceivers.includes(name.trim())) {
+                savedReceivers.push(name.trim());
+                saveReceivers();
+            }
+        }
+
+        // الإدخال التلقائي للمستلمين
+        function initReceiverAutocomplete() {
+            const input = document.getElementById('receiverName');
+            const container = document.createElement('div');
+            container.className = 'employee-suggestions';
+            container.id = 'receiverSuggestions';
+            
+            input.parentNode.appendChild(container);
+
+            input.addEventListener('input', function() {
+                const query = this.value.trim();
+                showReceiverSuggestions(query);
+            });
+
+            input.addEventListener('focus', function() {
+                if (this.value.trim() === '') {
+                    showReceiverSuggestions('');
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !container.contains(e.target)) {
+                    container.style.display = 'none';
+                }
+            });
+        }
+
+        function showReceiverSuggestions(query) {
+            const container = document.getElementById('receiverSuggestions');
+            let html = '';
+
+            if (query) {
+                const filtered = savedReceivers.filter(name => 
+                    name.toLowerCase().includes(query.toLowerCase())
+                ).slice(0, 5);
+
+                filtered.forEach(name => {
+                    html += `<div class="employee-suggestion-item" onclick="selectReceiver('${name}')">${name}</div>`;
+                });
+
+                if (!savedReceivers.includes(query) && query.length > 2) {
+                    html += `<div class="employee-suggestion-item new-employee" onclick="addNewReceiver('${query}')">إضافة "${query}" كاسم جديد</div>`;
+                }
+            } else {
+                savedReceivers.slice(0, 5).forEach(name => {
+                    html += `<div class="employee-suggestion-item" onclick="selectReceiver('${name}')">${name}</div>`;
+                });
+            }
+
+            container.innerHTML = html;
+            container.style.display = html ? 'block' : 'none';
+        }
+
+        function selectReceiver(name) {
+            document.getElementById('receiverName').value = name;
+            document.getElementById('receiverSuggestions').style.display = 'none';
+            saveData();
+        }
+
+        function addNewReceiver(name) {
+            document.getElementById('receiverName').value = name;
+            addReceiver(name);
+            document.getElementById('receiverSuggestions').style.display = 'none';
+            saveData();
+            showAutoSendNotification(`✅ تم إضافة "${name}" إلى قائمة المستلمين`, 'success');
+        }
+
+        // =============================================
+        // دالة إنشاء المحضر
+        // =============================================
+
+        function generateReceipt() {
+            const receiverName = document.getElementById('receiverName').value.trim();
+            
             if (!receiverName) {
-                alert('الرجاء إدخال اسم المستلم');
+                showAutoSendNotification('❌ يرجى إدخال اسم المستلم', 'error');
+                document.getElementById('receiverName').focus();
                 return;
             }
 
+            // إضافة المستلم للقائمة
+            addReceiver(receiverName);
+
+            // زيادة رقم المحضر
+            incrementReceiptNumber();
+
             // جمع البيانات
             const receiptDate = document.getElementById('receiptDate').value;
+            const receiveDate = document.getElementById('receiveDate').value;
             const companyName = document.getElementById('companyName').value;
             const vehicleClass = document.getElementById('vehicleClass').value;
             const vehicleType = document.getElementById('vehicleType').value;
@@ -387,94 +1327,253 @@
             const vehicleColor = document.getElementById('vehicleColor').value;
             const chassisNumber = document.getElementById('chassisNumber').value;
             const plateNumber = document.getElementById('plateNumber').value;
-            const receiveDate = document.getElementById('receiveDate').value;
+            const plateEmirate = document.getElementById('plateEmirate').value;
+            const vehicleCondition = document.getElementById('vehicleCondition').value;
 
-            // تنسيق التواريخ للعرض
+            // تنسيق التواريخ
             const formattedReceiptDate = formatDate(receiptDate);
             const formattedReceiveDate = formatDate(receiveDate);
 
-            // عرض البيانات في المحضر
-            document.getElementById('displayReceiverName').textContent = receiverName;
-            document.getElementById('receiptDateDisplay').textContent = formattedReceiptDate;
-            document.getElementById('displayCompanyName').textContent = companyName;
-            document.getElementById('displayVehicleClass').textContent = vehicleClass;
-            document.getElementById('displayVehicleType').textContent = vehicleType;
-            document.getElementById('displayManufactureYear').textContent = manufactureYear;
-            document.getElementById('displayVehicleColor').textContent = vehicleColor;
-            document.getElementById('displayChassisNumber').textContent = chassisNumber;
-            document.getElementById('displayPlateNumber').textContent = plateNumber;
-            document.getElementById('displayReceiveDate').textContent = formattedReceiveDate;
-            document.getElementById('displaySignatureName').textContent = receiverName;
-            document.getElementById('displaySignatureDate').textContent = formattedReceiptDate;
+            // إنشاء نص المحضر العربي
+            let arabicText = `\nأقر أنا ${receiverName} باستلام ${vehicleClass} خاص بشركة ${companyName} بالمواصفات التالية:\n\n`;
+            arabicText += `• صنف المركبة: ${vehicleClass}\n`;
+            arabicText += `• نوع المركبة: ${vehicleType}\n`;
+            arabicText += `• سنة الصنع: ${manufactureYear}\n`;
+            arabicText += `• لون المركبة: ${vehicleColor}\n`;
+            arabicText += `• رقم القاعدة (الشاسيه): ${chassisNumber}\n`;
+            arabicText += `• رقم اللوحات: ${plateNumber} ${plateEmirate ? `(${plateEmirate})` : ''}\n`;
+            arabicText += `• حالة المركبة: ${vehicleCondition}\n\n`;
+            arabicText += `وتم استلام المركبة ابتداءً من تاريخ ${formattedReceiveDate}، وأصبحت مسؤولاً عنها مسؤولية تامة عن أي مخالفات مرورية أو حوادث أو تلف يلحق بالمركبة نتيجة إهمال شخصي أثناء فترة حيازتي لها، وتصبح الشركة غير مسؤولة عن ذلك.\n\n`;
+            arabicText += `التاريخ: ${formattedReceiptDate}`;
 
-            // النسخة الإنجليزية
-            document.getElementById('displayEnglishReceiverName').textContent = receiverName;
-            document.getElementById('displayEnglishDate').textContent = formatDateEnglish(receiptDate);
-            document.getElementById('displayEnglishCompanyName').textContent = "Valencia marble & natural stone";
-            document.getElementById('displayEnglishYear').textContent = manufactureYear;
-            document.getElementById('displayEnglishClass').textContent = "PASSENGER VAN";
-            document.getElementById('displayEnglishType').textContent = vehicleType;
-            document.getElementById('displayEnglishColor').textContent = vehicleColor === "رمادي" ? "Gray" : vehicleColor;
-            document.getElementById('displayEnglishChassis').textContent = chassisNumber;
-            document.getElementById('displayEnglishPlate').textContent = plateNumber;
-            document.getElementById('displayEnglishReceiveDate').textContent = formatDateEnglish(receiveDate);
-            document.getElementById('displayEnglishSignatureName').textContent = receiverName;
-            document.getElementById('displayEnglishSignatureDate').textContent = formatDateEnglish(receiptDate);
+            // إنشاء نص المحضر الإنجليزي
+            let englishText = `\nI, ${receiverName}, hereby acknowledge receipt of a ${vehicleClass.toLowerCase()} from ${companyName} with the following specifications:\n\n`;
+            englishText += `• Vehicle Class: ${vehicleClass}\n`;
+            englishText += `• Vehicle Type: ${vehicleType}\n`;
+            englishText += `• Manufacture Year: ${manufactureYear}\n`;
+            englishText += `• Vehicle Color: ${vehicleColor}\n`;
+            englishText += `• Chassis Number: ${chassisNumber}\n`;
+            englishText += `• Plate Number: ${plateNumber} ${plateEmirate ? `(${plateEmirate})` : ''}\n`;
+            englishText += `• Vehicle Condition: ${vehicleCondition}\n\n`;
+            englishText += `The vehicle was received starting from ${formatDateEnglish(receiveDate)}. I am fully responsible for any traffic violations, accidents, or damage to the vehicle resulting from personal negligence during my possession of the vehicle, and the company is not responsible for such incidents.\n\n`;
+            englishText += `Date: ${formatDateEnglish(receiptDate)}`;
 
-            // إظهار المحضر
-            document.getElementById('receipt').style.display = 'block';
+            // عرض النصوص
+            document.getElementById('receiptDetails').textContent = arabicText;
+            document.getElementById('englishReceiptDetails').textContent = englishText;
+
+            // تعيين التواقيع
+            document.getElementById('signatureReceiverName').textContent = receiverName;
+            document.getElementById('signatureDate').textContent = formattedReceiptDate;
+            document.getElementById('companyRepresentative').textContent = "مدير العمليات";
+            
+            document.getElementById('englishSignatureReceiverName').textContent = receiverName;
+            document.getElementById('englishSignatureDate').textContent = formatDateEnglish(receiptDate);
+            document.getElementById('englishCompanyRepresentative').textContent = "Operations Manager";
+
+            // إظهار منطقة العرض
+            document.getElementById('receiptDisplay').style.display = 'block';
+            receiptGenerated = true;
+
+            // حفظ البيانات النهائية
+            saveData();
+
+            // عرض إشعار النجاح
+            showAutoSendNotification(`✅ تم إنشاء محضر استلام السيارة برقم REC-${currentReceiptNumber.toString().padStart(6, '0')}`, 'success');
 
             // التمرير إلى المحضر
-            document.getElementById('receipt').scrollIntoView({behavior: 'smooth'});
-        });
+            document.getElementById('receiptDisplay').scrollIntoView({behavior: 'smooth'});
+        }
 
-        // زر تفريغ الحقول
-        document.getElementById('resetBtn').addEventListener('click', function() {
-            if (confirm('هل أنت متأكد من تفريغ جميع الحقول؟')) {
+        // =============================================
+        // دالة طباعة المحضر
+        // =============================================
+
+        function printReceipt() {
+            if (!receiptGenerated) {
+                showAutoSendNotification('❌ يرجى إنشاء المحضر أولاً قبل الطباعة', 'error');
+                return;
+            }
+
+            // إنشاء نافذة الطباعة
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html dir="rtl" lang="ar">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>محضر استلام سيارة - شركة فالنسيا للرخام</title>
+                    <style>
+                        @page { size: A4; margin: 1cm; }
+                        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #000; }
+                        .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+                        .company-name { font-size: 24pt; font-weight: bold; margin-bottom: 5px; }
+                        .company-subtitle { font-size: 14pt; margin-bottom: 10px; }
+                        .document-title { font-size: 20pt; font-weight: bold; text-align: center; margin: 20px 0; }
+                        .receipt-info { margin-bottom: 20px; padding: 10px; border: 1px solid #000; }
+                        .receipt-details { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+                        .signature-section { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #000; }
+                        .english-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid #000; direction: ltr; }
+                        .english-header { font-size: 16pt; font-weight: bold; text-align: center; margin-bottom: 20px; }
+                        .signature-box { margin-top: 20px; padding-top: 10px; }
+                        .signature-line { border-bottom: 1px solid #000; width: 70%; margin: 10px auto; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div class="company-name">شركة فالنسيا لتجارة الرخام والحجر الطبيعي</div>
+                        <div class="company-subtitle">محضر استلام سيارة</div>
+                    </div>
+                    
+                    <div class="receipt-info">
+                        <div style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+                            رقم المحضر: ${document.getElementById('serial-number').textContent}
+                        </div>
+                        <div>التاريخ: ${document.getElementById('current-date').textContent}</div>
+                    </div>
+                    
+                    <div class="receipt-details">
+                        ${document.getElementById('receiptDetails').innerHTML.replace(/\n/g, '<br>')}
+                    </div>
+                    
+                    <div class="signature-section">
+                        <div style="text-align: center; font-weight: bold; margin-bottom: 20px;">
+                            تواقيع طرفي المحضر
+                        </div>
+                        <div style="display: flex; justify-content: space-between; gap: 50px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-weight: bold;">توقيع المستلم</div>
+                                <div class="signature-line"></div>
+                                <div>${document.getElementById('signatureReceiverName').textContent}</div>
+                                <div>${document.getElementById('signatureDate').textContent}</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="font-weight: bold;">توقيع ممثل الشركة</div>
+                                <div class="signature-line"></div>
+                                <div>شركة فالنسيا للرخام</div>
+                                <div>${document.getElementById('companyRepresentative').textContent}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="english-section">
+                        <div class="english-header">Vehicle Receipt Form</div>
+                        <div class="receipt-details">
+                            ${document.getElementById('englishReceiptDetails').innerHTML.replace(/\n/g, '<br>')}
+                        </div>
+                        <div class="signature-section">
+                            <div style="display: flex; justify-content: space-between; gap: 50px;">
+                                <div style="flex: 1; text-align: center;">
+                                    <div style="font-weight: bold;">Receiver's Signature</div>
+                                    <div class="signature-line"></div>
+                                    <div>${document.getElementById('englishSignatureReceiverName').textContent}</div>
+                                    <div>${document.getElementById('englishSignatureDate').textContent}</div>
+                                </div>
+                                <div style="flex: 1; text-align: center;">
+                                    <div style="font-weight: bold;">Company Representative Signature</div>
+                                    <div class="signature-line"></div>
+                                    <div>Valencia Marble & Natural Stone Co.</div>
+                                    <div>${document.getElementById('englishCompanyRepresentative').textContent}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 40px; font-size: 10pt; color: #666;">
+                        تم إنشاء هذا المحضر إلكترونياً عبر نظام إدارة السيارات - جميع الحقوق محفوظة © ${new Date().getFullYear()}
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // الانتظار قليلاً ثم الطباعة
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+
+        // =============================================
+        // دالة تفريغ الحقول
+        // =============================================
+
+        function resetForm() {
+            if (!receiptGenerated || confirm('هل أنت متأكد من تفريغ جميع الحقول؟ سيتم فقدان المحضر الحالي.')) {
                 document.getElementById('receiverName').value = '';
-                document.getElementById('receiptDate').value = new Date().toISOString().split('T')[0];
+                setDefaultDates();
+                document.getElementById('companyName').value = 'فالنسيا لتجارة الرخام والحجر الطبيعي';
                 document.getElementById('vehicleClass').value = 'فان ركاب';
-                document.getElementById('vehicleType').value = 'YYUNDAI STAREX';
+                document.getElementById('vehicleType').value = 'HYUNDAI STAREX';
                 document.getElementById('manufactureYear').value = '2012';
                 document.getElementById('vehicleColor').value = 'رمادي';
                 document.getElementById('chassisNumber').value = 'KMJWA37KBCU482534';
                 document.getElementById('plateNumber').value = 'FF-35715';
-                document.getElementById('receiveDate').value = '2025-06-14';
-                document.getElementById('companyName').value = 'فالنسيا لتجارة الرخام والحجر الطبيعي';
-
+                document.getElementById('plateEmirate').value = '';
+                document.getElementById('vehicleCondition').value = 'جيدة';
+                
                 // إخفاء المحضر
-                document.getElementById('receipt').style.display = 'none';
+                document.getElementById('receiptDisplay').style.display = 'none';
+                receiptGenerated = false;
+                
+                // حفظ البيانات
+                saveData();
+                
+                showAutoSendNotification('✅ تم تفريغ جميع الحقول بنجاح', 'success');
             }
-        });
+        }
 
-        // زر طباعة المحضر
-        document.getElementById('printBtn').addEventListener('click', function() {
-            if (document.getElementById('receipt').style.display === 'block') {
-                window.print();
-            } else {
-                alert('الرجاء إنشاء المحضر أولاً قبل الطباعة');
-            }
-        });
+        // =============================================
+        // دوال مساعدة
+        // =============================================
 
-        // دالة لتنسيق التاريخ بالعربية
         function formatDate(dateString) {
             if (!dateString) return '';
-
             const date = new Date(dateString);
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-
             return `${day}/${month}/${year}`;
         }
 
-        // دالة لتنسيق التاريخ بالإنجليزية
         function formatDateEnglish(dateString) {
             if (!dateString) return '';
-
             const date = new Date(dateString);
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             return date.toLocaleDateString('en-US', options);
+        }
+
+        function showAutoSendNotification(message, type = 'success') {
+            const existingNotification = document.getElementById('auto-send-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.id = 'auto-send-notification';
+            notification.className = type;
+
+            let icon = '';
+            if (type === 'success') icon = '<i class="fas fa-check-circle"></i>';
+            else if (type === 'error') icon = '<i class="fas fa-exclamation-triangle"></i>';
+            else if (type === 'info') icon = '<i class="fas fa-info-circle"></i>';
+
+            notification.innerHTML = icon + message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'fadeOut 0.5s ease-out';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 500);
+                }
+            }, 5000);
         }
     </script>
 </body>
